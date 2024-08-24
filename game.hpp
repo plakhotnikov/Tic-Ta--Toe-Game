@@ -3,6 +3,7 @@
 
 #include "player.hpp"
 
+enum GameStatus { Ongoing = 0, Player1Wins, Player2Wins };
 
 class TicTacToeGame {
 private:
@@ -19,18 +20,18 @@ public:
     }
 
 
-    int updateGameStatus() {
+    GameStatus updateGameStatus() {
         for (int i = 0; i < 3; ++i) {
             if (field[i][0] != '.' && field[i][0] == field[i][1] && field[i][0] == field[i][2])
-                return (field[i][0] == 'X' ? 1 : 2);
+                return (field[i][0] == 'X' ? Player1Wins : Player2Wins);
             if (field[0][i] != '.' && field[0][i] == field[1][i] && field[0][i] == field[2][i])
-                return (field[i][0] == 'X' ? 1 : 2);
+                return (field[0][i] == 'X' ? Player1Wins : Player2Wins);
         }
         if (field[0][0] != '.' && field[0][0] == field[1][1] && field[0][0] == field[2][2])
-            return (field[0][0] == 'X' ? 1 : 2);
+            return (field[0][0] == 'X' ? Player1Wins : Player2Wins);
         if (field[2][0] != '.' && field[2][0] == field[1][1] && field[2][0] == field[0][2])
-            return (field[2][0] == 'X' ? 1 : 2);
-        return 0;
+            return (field[2][0] == 'X' ? Player1Wins : Player2Wins);
+        return Ongoing;
     }
 
     void clearField() {
@@ -52,8 +53,8 @@ public:
 
     void start() {
         clearField();
-        bool player = true; // true - X, false - O
-        int gameStatus = 0; // 1 - player1 победил, 2 - player2
+        bool playerTurn = true; // true - player1, false - player2
+        GameStatus gameStatus = Ongoing; 
         int emptyCells = 9;
         while (gameStatus == 0 && emptyCells != 0) {
 			std::pair<int,int> cell;
@@ -71,17 +72,17 @@ public:
 
 			gameStatus = updateGameStatus();
             --emptyCells;
-            if (gameStatus)
+            if (gameStatus != Ongoing)
                 break;
         }    
         switch (gameStatus) {
-            case 0:
+            case Ongoing:
                 std::cout << "Ничья!\n";
                 break;
-            case 1:
+            case Player1Wins:
                 std::cout << player1->name << " победил!\n";
                 break;
-            case 2:
+            case Player2Wins:
                 std::cout << player2->name << " победил!\n";
         }
 		show_winner();
