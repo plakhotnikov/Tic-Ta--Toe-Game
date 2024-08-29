@@ -59,7 +59,7 @@ public:
         while (gameStatus == 0 && emptyCells != 0) {
 			std::pair<int,int> cell;
 			char sym;
-            if (player) {
+            if (playerTurn) {
 				cell = player1->choose_cell();
 				sym = 'X';
 			}
@@ -68,7 +68,7 @@ public:
 				sym = 'O';
 			}
 			field[cell.first][cell.second] = sym;
-			player ^= true;
+			playerTurn ^= true;
 
 			gameStatus = updateGameStatus();
             --emptyCells;
