@@ -34,8 +34,8 @@ void changePlayers(Player*& p1, Player*& p2) {
 
 int main() {
 	std::string flag = "Y";
-	Player* p1; 
-	Player* p2;
+	Player* p1 = nullptr; 
+	Player* p2 = nullptr;
 	changePlayers(p1,p2);
 	while (flag == "Y" || flag == "y") {
 		
